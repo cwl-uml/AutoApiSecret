@@ -1,4 +1,4 @@
-#自动调用api保活，加密版
+#自動運行Twitter Photos
 name: Twitter Photos
 
 on: 
@@ -10,7 +10,7 @@ on:
   #  branches: 
   #    - master
   schedule:
-    - cron: "10 * * * *"
+    - cron: "*/30 * * * *"
   watch:
     types: [started]
    
