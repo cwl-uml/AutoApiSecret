@@ -110,14 +110,15 @@ class TwitterPhotos(object):
         fetched_photos = []
         for s in statuses:
             if s.media is not None:
-                now = datetime.datetime.now()
-                time_format = now.strftime("%Y-%m-%d %H:%M:%S")
-                name = time_format.replace(':', '-')
-                d = os.path.join(self.outdir or '', user)
-                create_directory(d+r'/json')
-                f = open(d+r'/json/'+name+r'.json', "w")
-                f.write(str(s))
-                f.close()
+                #now = datetime.datetime.now()
+                #time_format = now.strftime("%Y-%m-%d %H:%M:%S")
+                #name = time_format.replace(':', '-')
+                #d = os.path.join(self.outdir or '', user)
+                #create_directory(d+r'/json')
+                #f = open(d+r'/json/'+name+r'.json', "a")
+                #f.write(str(statuses + s.media))
+                #f.close()
+                
                 for m in s.media:
                     m_dict = m.AsDict()
                     if user.upper() in m_dict['expanded_url'].upper():
@@ -132,6 +133,15 @@ class TwitterPhotos(object):
                                     s = (m_dict['id'], k_ele['url'])
                                     fetched_photos.append(s)
 
+        d = os.path.join(self.outdir or '', user)
+        create_directory(d+r'/json')
+        now = datetime.datetime.now()
+        time_format = now.strftime("%Y-%m-%d %H:%M:%S")
+        name = time_format.replace(':', '-')
+        f = open(d+r'/json/'+name+r'.json', "a")
+        f.write(str(statuses)+'\n')
+        f.write(str(fetched_photos))
+        f.close()
         if num is not None:
             if len(photos + fetched_photos) >= num:
                 return photos + fetched_photos
