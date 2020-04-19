@@ -13,6 +13,7 @@ import json,sys,time
 
 
 path=sys.path[0]+r'/1.txt'
+print (sys.path)
 num1 = 0
 
 def gettoken(refresh_token):
