@@ -5,6 +5,7 @@ import collections
 import json
 import os
 import sys
+import datetime
 # Import .settings before twitter due to local development of python-twitter
 from .settings import (CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN,
                        ACCESS_TOKEN_SECRET, COUNT_PER_GET, MEDIA_SIZES,
@@ -109,6 +110,14 @@ class TwitterPhotos(object):
         fetched_photos = []
         for s in statuses:
             if s.media is not None:
+                now = datetime.datetime.now()
+                time_format = now.strftime("%Y-%m-%d %H:%M:%S")
+                name = time_format.replace(':', '-')
+                d = os.path.join(self.outdir or '', user)
+                create_directory(d+r'/json')
+                f = open(d+r'/json/'+name+r'.json', "w")
+                f.write(str(s))
+                f.close()
                 for m in s.media:
                     m_dict = m.AsDict()
                     if user.upper() in m_dict['expanded_url'].upper():
