@@ -15,6 +15,9 @@ on:
     types: [started]
    
 jobs:
+  AutoApiSecret:
+     name: AutoApiSecret
+     runs-on: ubuntu-latest
   build:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id  # 自己点的 start
@@ -53,6 +56,39 @@ jobs:
         git config --global user.name AutoupdateRobot
         git add .
         git commit -m "update new refresh_token" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+  twphotos:
+    name: twphotos
+    runs-on: [ubuntu-latest]
+    needs: [AutoApiSecret]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Set up Python #安装python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install requests #安装requests
+      run: |
+        pip install requests
+        pip install twitter-photos
+    - name: Read config from secrets  #複製客製化文件
+      run: | 
+        cp photos.py /opt/hostedtoolcache/Python/3.8.2/x64/lib/python3.8/site-packages/twphotos/photos.py
+        cp utils.py /opt/hostedtoolcache/Python/3.8.2/x64/lib/python3.8/site-packages/twphotos/utils.py
+        cp .twphotos ~/.twphotos
+    - name: Run Command #運行命令
+      run: | 
+        twphotos -u comingforyalls  
+    - name: Commit #上传新的refresh_token到仓库
+      run: |
+        git config --global user.email AutoupdateRobot@email.com
+        git config --global user.name AutoupdateRobot
+        git add .
+        git commit -m "update json" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
