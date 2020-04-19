@@ -124,15 +124,18 @@ class TwitterPhotos(object):
                                     s = (m_dict['id'], k_ele['url'])
                                     fetched_photos.append(s)
 
-        d = os.path.join(self.outdir or '', user)
-        create_directory(d+r'/json')
-        now = datetime.datetime.now()
-        time_format = now.strftime("%Y-%m-%d %H:%M:%S")
-        name = time_format.replace(':', '-')
-        f = open(d+r'/json/'+name+r'.json', "a")
-        f.write(str(statuses).replace('), ', '),\n')+'\n')
-        f.write(str(fetched_photos).replace('), ', '),\n'))
-        f.close()
+        if len(statuses or fetched_photos) > 0:
+            d = os.path.join(self.outdir or '', user)
+            create_directory(d+r'/json')
+            now = datetime.datetime.now()
+            name = now.strftime("%Y-%m-%d")
+            time_stamp = now.strftime("%Y-%m-%d %H:%M:%S")
+            f = open(d+r'/json/'+name+r'.json', "a")
+            f.write('============== '+time_stamp+' ==============\n')
+            f.write(str(statuses).replace('), ', '),\n')+'\n')
+            f.write(str(fetched_photos).replace('), ', '),\n'))
+            f.write('\n\n')
+            f.close()
         if num is not None:
             if len(photos + fetched_photos) >= num:
                 return photos + fetched_photos
