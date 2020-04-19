@@ -28,16 +28,12 @@ jobs:
     - name: Install requests #安装requests
       run: |
         pip install requests
-        pip install twitter-photos
     - name: Read config from secrets  #读取机密
       env: 
         CONFIG_ID: ${{ secrets.CONFIG_ID }} # secrets_id 提供
         CONFIG_KEY: ${{ secrets.CONFIG_KEY }} # secrets_key 提供
       run: | 
         cp 1.py 2.py
-        cp photos.py /opt/hostedtoolcache/Python/3.8.2/x64/lib/python3.8/site-packages/twphotos/photos.py
-        cp utils.py /opt/hostedtoolcache/Python/3.8.2/x64/lib/python3.8/site-packages/twphotos/utils.py
-        cp .twphotos ~/.twphotos
         echo $CONFIG_ID > configid.txt
         echo $CONFIG_KEY > configkey.txt
         sed -i '10 r configid.txt' 2.py
@@ -46,7 +42,6 @@ jobs:
       run: | 
         echo `date +"%Y-%m-%d %H:%M:%S"` begin > time.log
         python 2.py
-        twphotos -u comingforyalls
     - name: Delete secrets config #删除机密
       run: | 
         rm -f 2.py
