@@ -130,12 +130,48 @@ class TwitterPhotos(object):
             now = datetime.datetime.now()
             name = now.strftime("%Y-%m-%d")
             time_stamp = now.strftime("%Y-%m-%d %H:%M:%S")
-            f = open(d+r'/json/'+name+r'.json', "a")
-            f.write('============== '+time_stamp+' ==============\n')
-            f.write(str(statuses).replace('), ', '),\n')+'\n')
-            f.write(str(fetched_photos).replace('), ', '),\n'))
-            f.write('\n\n')
-            f.close()
+            write_count = 0
+            try:
+                with open(d+r'/json/last_status.json') as last_status_r:
+                    printStat = last_status_r.read()
+                    if str(statuses) == str(printStat):
+                        write_count += 1
+                        print ('Skipping statuses')
+                    else:
+                        last_status_rw = open(d+r'/json/last_status.json', "w")
+                        last_status_rw.write(str(statuses))
+                        last_status_rw.close()
+                        print ('Overwriting statuses')
+                last_status_r.close() 
+            except IOError:
+                last_status_w = open(d+r'/json/last_status.json', "w")
+                last_status_w.write(str(statuses))
+                last_status_w.close()
+                print ('Creating new status file')
+            try:
+                with open(d+r'/json/last_fetch.json') as last_fetch_r:
+                    printfetch = last_fetch_r.read()
+                    if str(fetched_photos) == str(printfetch):
+                        write_count += 1
+                        print ('Skipping fetched_photos')
+                    else:
+                        last_fetch_rw = open(d+r'/json/last_fetch.json', "w")
+                        last_fetch_rw.write(str(fetched_photos))
+                        last_fetch_rw.close()
+                        print ('Overwriting fetched_photos')
+                last_fetch_r.close() 
+            except IOError:
+                last_fetch_rw = open(d+r'/json/last_fetch.json', "w")
+                last_fetch_rw.write(str(fetched_photos))
+                last_fetch_rw.close()
+                print ('Creating new fetched_photos file')
+            if write_count < 2:
+                f = open(d+r'/json/'+name+r'.json', "a")
+                f.write('============== '+time_stamp+' ==============\n')
+                f.write(str(statuses).replace('), ', '),\n')+'\n')
+                f.write(str(fetched_photos).replace('), ', '),\n'))
+                f.write('\n\n')
+                f.close()
         if num is not None:
             if len(photos + fetched_photos) >= num:
                 return photos + fetched_photos
