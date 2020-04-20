@@ -136,6 +136,9 @@ class TwitterPhotos(object):
                     printStat = last_status_r.read()
                     if str(statuses) == str(printStat):
                         write_count += 1
+                        last_status_rw = open(d+r'/json/last_status.json', "w")
+                        last_status_rw.write(str(statuses))
+                        last_status_rw.close()
                         print ('Skipping statuses')
                     else:
                         last_status_rw = open(d+r'/json/last_status.json', "w")
@@ -153,6 +156,9 @@ class TwitterPhotos(object):
                     printfetch = last_fetch_r.read()
                     if str(fetched_photos) == str(printfetch):
                         write_count += 1
+                        last_fetch_rw = open(d+r'/json/last_fetch.json', "w")
+                        last_fetch_rw.write(str(fetched_photos))
+                        last_fetch_rw.close()
                         print ('Skipping fetched_photos')
                     else:
                         last_fetch_rw = open(d+r'/json/last_fetch.json', "w")
