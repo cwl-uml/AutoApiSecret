@@ -178,6 +178,10 @@ class TwitterPhotos(object):
                 f.write(str(fetched_photos).replace('), ', '),\n'))
                 f.write('\n\n')
                 f.close()
+            else:
+                f = open(d+r'/json/'+name+r'.json', "a")
+                f.write(' ')
+                f.close()
         if num is not None:
             if len(photos + fetched_photos) >= num:
                 return photos + fetched_photos
