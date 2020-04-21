@@ -13,7 +13,6 @@ on:
     - cron: "*/6 * * * *"
   watch:
     types: [started]
-  commit_comment:
     
    
 jobs:
