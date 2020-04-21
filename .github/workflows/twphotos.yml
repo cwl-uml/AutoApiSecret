@@ -7,17 +7,16 @@ on:
   push:
     tags:
     - 'v*'
+    types: 
+      - commit
   #  branches: 
   #    - master
   schedule:
     - cron: "*/6 * * * *"
   watch:
     types: [started]
-  project:
-    types: [updated, edited]
     
     
-   
 jobs:
   build:
     runs-on: ubuntu-latest
