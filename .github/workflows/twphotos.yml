@@ -12,7 +12,7 @@ on:
   schedule:
     - cron: "*/6 * * * *"
   watch:
-    types: [commit]
+    types: [push]
    
 jobs:
   build:
