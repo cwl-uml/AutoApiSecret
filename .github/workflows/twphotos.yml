@@ -5,10 +5,10 @@ on:
   release:
     types: [published]
   push:
-    tags:
-    - 'v*'
-    types: 
-      - commit
+   # tags:
+    #- 'v*'
+   # types: 
+     # - commit
   #  branches: 
   #    - master
   schedule:
