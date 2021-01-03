@@ -17,6 +17,7 @@ path=sys.path[0]+r'/1.txt'
 print (sys.path)
 num1 = 0
 randNum = random.randint(1,5)
+print ("此次調用"+str(randNum)+'次')
 
 def gettoken(refresh_token):
     headers={'Content-Type':'application/x-www-form-urlencoded'
